@@ -1,5 +1,5 @@
 import { server } from './server/Server';
 
-server.listen(8080, () => {
-  console.log('App rodando!');
+server.listen(process.env.PORT || 8080, () => {
+  console.log(`Server running at port http://localhost:${process.env.PORT}/`);
 });
