@@ -1,0 +1,84 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model admin {
+  id         Int     @id @default(autoincrement())
+  usuario_id Int
+  usuario    usuario @relation(fields: [usuario_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_usuario_id")
+}
+
+model agronomo {
+  id             Int      @id @default(autoincrement())
+  formacao       String?  @db.VarChar
+  especializacao String?  @db.VarChar
+  usuario_id     Int
+  usuario        usuario  @relation(fields: [usuario_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_usuario_id")
+  visita         visita[]
+}
+
+model cliente {
+  id          Int      @id @default(autoincrement())
+  propriedade Int?
+  cultivo     String?  @db.VarChar
+  problema    String?  @db.VarChar
+  notificacao String?  @db.VarChar
+  usuario_id  Int
+  usuario     usuario  @relation(fields: [usuario_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_usuario_id")
+  visita      visita[]
+}
+
+model perfil {
+  id      Int       @id @default(autoincrement())
+  nome    String    @db.VarChar
+  usuario usuario[]
+}
+
+model status {
+  id     Int      @id @default(autoincrement())
+  nome   String   @db.VarChar
+  visita visita[]
+}
+
+model usuario {
+  id         Int        @id @default(autoincrement())
+  foto       String?    @db.VarChar
+  nome       String     @db.VarChar
+  telefone   String?    @db.VarChar
+  email      String     @db.VarChar
+  senha      String     @db.VarChar
+  nascimento DateTime?  @db.Date
+  rua        String     @db.VarChar
+  bairro     String     @db.VarChar
+  cidade     String     @db.VarChar
+  perfil_id  Int
+  admin      admin[]
+  agronomo   agronomo[]
+  cliente    cliente[]
+  perfil     perfil     @relation(fields: [perfil_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_perfil_id")
+}
+
+model visita {
+  id          Int       @id @default(autoincrement())
+  chegada     DateTime? @db.Date
+  saida       DateTime? @db.Date
+  objetivo    String?   @db.VarChar
+  diagnostico String?   @db.VarChar
+  praga       String?   @db.VarChar
+  produto     String?   @db.VarChar
+  observacoes String?
+  plantio     String?   @db.VarChar
+  foto        String?   @db.VarChar
+  venda       String?   @db.VarChar
+  cliente_id  Int
+  agronomo_id Int
+  status_id   Int
+  agronomo    agronomo  @relation(fields: [agronomo_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_agronomo_id")
+  cliente     cliente   @relation(fields: [cliente_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_cliente_id")
+  status      status    @relation(fields: [status_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_status_id")
+}
