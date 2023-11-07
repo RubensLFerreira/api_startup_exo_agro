@@ -1,11 +1,19 @@
-import express from 'express';
-
 import 'dotenv/config';
+
+import express from 'express';
+import router from './routes/index.js';
+
+import cors from 'cors';
 
 const server = express();
 
-server.get('/', (req, res) => {
-  res.status(200).json({ message: 'Sucesso!' });
-});
+server.use(cors());
+
+server.use(express.json());
+server.use(express.urlencoded({ extended: true }));
+
+server.use(express.static('public'));
+
+server.use('/', router);
 
 export { server };
