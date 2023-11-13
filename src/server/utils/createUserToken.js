@@ -4,7 +4,7 @@ import { StatusCodes } from 'http-status-codes';
 import jwt from 'jsonwebtoken';
 
 const createUserToken = async (usuario, _, res) => {
-  const secret = process.env.SECRET;
+  const secret = process.env.JWT_SECRET;
 
   const token = jwt.sign(
     {
