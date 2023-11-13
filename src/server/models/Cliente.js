@@ -12,11 +12,11 @@ const Cliente = sequelize.define(
     },
     propriedade: {
       type: DataTypes.INTEGER,
-      allowNull: true,
+      allowNull: false,
     },
     cultivo: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
     },
     problema: {
       type: DataTypes.STRING,
@@ -24,7 +24,7 @@ const Cliente = sequelize.define(
     },
     notificacao: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
     },
     usuario_id: {
       type: DataTypes.INTEGER,

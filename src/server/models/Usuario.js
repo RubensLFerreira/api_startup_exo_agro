@@ -22,9 +22,19 @@ const Usuario = sequelize.define(
       type: DataTypes.STRING,
       allowNull: true,
     },
+    sexo: {
+      type: DataTypes.CHAR(1),
+      allowNull: false,
+    },
+    cpf: {
+      type: DataTypes.STRING(14),
+      allowNull: false,
+      unique: 'usuario_cpf_key',
+    },
     email: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: 'usuario_email_key',
     },
     senha: {
       type: DataTypes.STRING,

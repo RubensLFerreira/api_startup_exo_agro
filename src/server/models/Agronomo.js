@@ -12,7 +12,7 @@ const Agronomo = sequelize.define(
     },
     formacao: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
     },
     especializacao: {
       type: DataTypes.STRING,
