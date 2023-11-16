@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-const clienteSchema = yup.object().shape({
+const adminSchema = yup.object().shape({
   nome: yup.string().min(3).required('Campo nome é obrigatório'),
   nascimento: yup.date().required('A data de nascimento é obrigatória'),
   telefone: yup.string().max(11).required('Campo telefone obrigatório'),
@@ -17,10 +17,6 @@ const clienteSchema = yup.object().shape({
   rua: yup.string().min(3).required('Campo rua é obrigatório'),
   bairro: yup.string().min(3).required('Campo bairro é obrigatório'),
   cidade: yup.string().min(3).required('Campo cidade é obrigatório'),
-  propriedade: yup.number().min(3).required('Campo propriedade é obrigatório'),
-  cultivo: yup.string().min(3).required('Campo cultivo é obrigatório'),
-  problema: yup.string().min(3).required('Campo problema é obrigatório'),
-  notificacao: yup.string().min(3).required('Campo notificação é obrigatório'),
 });
 
-export default clienteSchema;
+export default adminSchema;
