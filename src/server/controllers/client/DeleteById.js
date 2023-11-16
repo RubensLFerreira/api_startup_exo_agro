@@ -13,9 +13,9 @@ const clienteController = {
 
       res.status(StatusCodes.OK).json({});
     } catch (error) {
-      console.error(error);
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
         message: 'Cliente delete successfully!',
+        validator: error.errors,
       });
     }
   },

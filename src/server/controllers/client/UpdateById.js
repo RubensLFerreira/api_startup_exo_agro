@@ -55,10 +55,10 @@ const clienteController = {
 
       res.status(StatusCodes.OK).json({ cliente, usuario });
     } catch (error) {
-      console.error('Error updating client!', error);
-      return res
-        .status(StatusCodes.INTERNAL_SERVER_ERROR)
-        .json({ message: 'Error updating client!' });
+      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+        message: 'Error updating client!',
+        validator: error.errors,
+      });
     }
   },
 };

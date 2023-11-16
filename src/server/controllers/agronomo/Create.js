@@ -2,16 +2,18 @@ import { StatusCodes } from 'http-status-codes';
 import bcrypt from 'bcrypt';
 
 import Usuario from '../../models/Usuario.js';
-import Cliente from '../../models/Cliente.js';
+import Agronomo from '../../models/Agronomo.js';
 
-import clienteSchema from '../../validations/clienteValidator.js';
+import createUserToken from '../../utils/createUserToken.js';
+import agronomoSchema from './../../validations/agronomoValidator.js';
 
-const profileCliente = 3;
+const profileAgronomo = 2;
 
-const clienteController = {
+const agronomoController = {
   create: async (req, res) => {
     try {
       const foto = req.file;
+
       const {
         nome,
         telefone,
@@ -23,19 +25,17 @@ const clienteController = {
         rua,
         bairro,
         cidade,
-        propriedade,
-        cultivo,
-        problema,
-        notificacao,
+        formacao,
+        especializacao,
       } = req.body;
 
-      await clienteSchema.validate(req.body, { abortEarly: false });
+      await agronomoSchema.validate(req.body);
 
       const salt = await bcrypt.genSalt(10);
       const senhaHash = await bcrypt.hash(senha, salt);
 
       const usuario = await Usuario.create({
-        foto: foto.filename,
+        foto: foto.filenames,
         nome,
         telefone,
         sexo,
@@ -46,25 +46,23 @@ const clienteController = {
         rua,
         bairro,
         cidade,
-        perfil_id: profileCliente,
+        perfil_id: profileAgronomo,
       });
 
-      const cliente = await Cliente.create({
-        propriedade,
-        cultivo,
-        problema,
-        notificacao,
+      await Agronomo.create({
+        formacao,
+        especializacao,
         usuario_id: usuario.id,
       });
 
-      res.status(StatusCodes.CREATED).json({ cliente });
+      createUserToken(usuario, req, res);
     } catch (error) {
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-        message: 'Error fetching records!',
+      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+        message: 'Error creating agronomist!',
         validator: error.errors,
       });
     }
   },
 };
 
-export default clienteController;
+export default agronomoController;

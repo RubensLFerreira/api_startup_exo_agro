@@ -1,6 +1,6 @@
-import Cliente from '../../models/Cliente.js';
-
 import { StatusCodes } from 'http-status-codes';
+
+import Cliente from '../../models/Cliente.js';
 
 const clienteController = {
   getById: async (req, res) => {
@@ -11,9 +11,9 @@ const clienteController = {
 
       res.status(StatusCodes.OK).json({ cliente });
     } catch (error) {
-      console.error('Erro when searching for customer!', error);
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
         message: 'Erro when searching for customer!',
+        validator: error.errors,
       });
     }
   },

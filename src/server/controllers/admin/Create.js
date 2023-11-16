@@ -5,12 +5,15 @@ import Usuario from '../../models/Usuario.js';
 import Admin from './../../models/Admin.js';
 
 import createUserToken from '../../utils/createUserToken.js';
+import adminSchema from './../../validations/adminValidator.js';
+
+const profileAdmin = 1;
 
 const adminController = {
   create: async (req, res) => {
     try {
+      const foto = req.file;
       const {
-        foto,
         nome,
         telefone,
         sexo,
@@ -23,11 +26,13 @@ const adminController = {
         cidade,
       } = req.body;
 
+      await adminSchema.validate(req.body);
+
       const salt = await bcrypt.genSalt(10);
       const senhaHash = await bcrypt.hash(senha, salt);
 
       const usuario = await Usuario.create({
-        foto,
+        foto: foto.filename,
         nome,
         telefone,
         sexo,
@@ -38,7 +43,7 @@ const adminController = {
         rua,
         bairro,
         cidade,
-        perfil_id: 1,
+        perfil_id: profileAdmin,
       });
 
       await Admin.create({
@@ -47,9 +52,9 @@ const adminController = {
 
       createUserToken(usuario, req, res);
     } catch (error) {
-      console.error('Error creating administrator!', error);
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
         message: 'Error creating administrator!',
+        validator: error.errors,
       });
     }
   },
