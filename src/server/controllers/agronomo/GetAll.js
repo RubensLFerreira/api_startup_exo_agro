@@ -15,12 +15,10 @@ const agronomoController = {
 
       res.status(StatusCodes.OK).json({ agronomos });
     } catch (error) {
-      return res
-        .status(StatusCodes.INTERNAL_SERVER_ERROR)
-        .json({
-          message: 'Error when searching for records!',
-          validator: error.errors,
-        });
+      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+        message: 'Error when searching for records!',
+        validator: error.errors,
+      });
     }
   },
 };
