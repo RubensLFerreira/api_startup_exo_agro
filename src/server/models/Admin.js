@@ -1,6 +1,8 @@
 import { DataTypes } from 'sequelize';
 import sequelize from '../database/index.js';
 
+import Usuario from './Usuario.js';
+
 const Admin = sequelize.define(
   'admin',
   {
@@ -33,5 +35,7 @@ const Admin = sequelize.define(
     ],
   },
 );
+
+Admin.belongsTo(Usuario, { foreignKey: 'usuario_id', as: 'usuario' });
 
 export default Admin;

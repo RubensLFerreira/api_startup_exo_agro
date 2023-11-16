@@ -1,5 +1,7 @@
 import { DataTypes } from 'sequelize';
-import sequelize from '../database';
+import sequelize from '../database/index.js';
+
+import Usuario from './Usuario.js';
 
 const Agronomo = sequelize.define(
   'agronomo',
@@ -41,5 +43,7 @@ const Agronomo = sequelize.define(
     ],
   },
 );
+
+Agronomo.belongsTo(Usuario, { foreignKey: 'usuario_id', as: 'usuario' });
 
 export default Agronomo;
