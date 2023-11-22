@@ -3,9 +3,9 @@ import path from 'path';
 
 const imageStorage = multer.diskStorage({
   destination: (req, file, callback) => {
-    const { type } = req.params;
+    const { tipo } = req.params;
     let folder =
-      type === 'visita' ? 'visita' : type === 'admin' ? 'admin' : 'agronomo';
+      tipo === 'visita' ? 'visita' : tipo === 'admin' ? 'admin' : 'agronomo';
 
     const uploadPath = `src/server/public/images/${folder}`;
     callback(null, uploadPath);
