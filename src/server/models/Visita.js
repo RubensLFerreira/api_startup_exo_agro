@@ -1,5 +1,9 @@
 import { DataTypes } from 'sequelize';
-import sequelize from '../database';
+import sequelize from '../database/index.js';
+
+import Cliente from './Cliente.js';
+import Agronomo from './Agronomo.js';
+import Status from './Status.js';
 
 const Visita = sequelize.define(
   'visita',
@@ -11,10 +15,14 @@ const Visita = sequelize.define(
       primaryKey: true,
     },
     chegada: {
-      type: DataTypes.DATEONLY,
+      type: DataTypes.TIME,
       allowNull: false,
     },
     saida: {
+      type: DataTypes.TIME,
+      allowNull: false,
+    },
+    data: {
       type: DataTypes.DATEONLY,
       allowNull: false,
     },
@@ -43,7 +51,7 @@ const Visita = sequelize.define(
       allowNull: true,
     },
     venda: {
-      type: DataTypes.CHAR(1),
+      type: DataTypes.BOOLEAN,
       allowNull: true,
     },
     cliente_id: {
@@ -70,7 +78,7 @@ const Visita = sequelize.define(
         key: 'id',
       },
     },
-    fotos: {
+    foto: {
       type: DataTypes.ARRAY(DataTypes.TEXT),
       allowNull: true,
     },
@@ -89,4 +97,14 @@ const Visita = sequelize.define(
     ],
   },
 );
+
+Visita.belongsTo(Cliente, { foreignKey: 'cliente_id' });
+Cliente.hasMany(Visita, { foreignKey: 'cliente_id', as: 'visitas' });
+
+Visita.belongsTo(Agronomo, { foreignKey: 'agronomo_id' });
+Agronomo.hasMany(Visita, { foreignKey: 'agronomo_id', as: 'visitas' });
+
+Visita.belongsTo(Status, { foreignKey: 'status_id' });
+Status.hasMany(Visita, { foreignKey: 'status_id', as: 'visitas' });
+
 export default Visita;
