@@ -3,7 +3,8 @@ import express from 'express';
 import { StatusCodes } from 'http-status-codes';
 
 import imageUpload from './../middlewares/uploadImage.js';
-import authenticated from './../middlewares/authenticated.js';
+// import authenticated from './../middlewares/authenticated.js';
+import searchUsers from '../controllers/usuario/search.js';
 
 import createAdmin from '../controllers/admin/Create.js';
 
@@ -29,13 +30,18 @@ router.get('/', (_, res) => {
   return res.status(StatusCodes.ACCEPTED).send('Hello world! Página inicial');
 });
 
+router.get(
+  '/usuarios/buscar/:nomeUsuario/perfil/:perfilId',
+  searchUsers.searchUsuario,
+);
+
 router.post(
   '/admin/cadastrar/tipo/:tipo',
   imageUpload.single('foto'),
   createAdmin.create,
 );
 
-router.get('/clientes', authenticated, getAllCustomers.getAll);
+router.get('/clientes', getAllCustomers.getAll);
 router.get('/cliente/:id', getCustomerById.getById);
 router.post(
   '/cliente/cadastrar/tipo/:tipo',
