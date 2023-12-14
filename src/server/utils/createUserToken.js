@@ -1,7 +1,6 @@
-import 'dotenv/config';
-
-import { StatusCodes } from 'http-status-codes';
-import jwt from 'jsonwebtoken';
+require('dotenv/config');
+const { StatusCodes } = require('http-status-codes');
+const jwt = require('jsonwebtoken');
 
 const createUserToken = async (usuario, _, res) => {
   const secret = process.env.JWT_SECRET;
@@ -21,4 +20,4 @@ const createUserToken = async (usuario, _, res) => {
   });
 };
 
-export default createUserToken;
+module.exports = createUserToken;
