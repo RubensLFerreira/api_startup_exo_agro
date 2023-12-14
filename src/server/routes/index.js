@@ -1,28 +1,28 @@
-import express from 'express';
+const express = require('express');
+const { StatusCodes } = require('http-status-codes');
 
-import { StatusCodes } from 'http-status-codes';
+const imageUpload = require('./../middlewares/uploadImage.js');
+// const authenticated = require('./../middlewares/authenticated.js');
 
-import imageUpload from './../middlewares/uploadImage.js';
-// import authenticated from './../middlewares/authenticated.js';
-import searchUsers from '../controllers/usuario/search.js';
+const searchUser = require('../controllers/usuario/Search.js');
 
-import createAdmin from '../controllers/admin/Create.js';
+const createAdmin = require('../controllers/admin/Create.js');
 
-import getAllCustomers from '../controllers/client/GetAll.js';
-import getCustomerById from '../controllers/client/GetById.js';
-import createCustomer from '../controllers/client/Create.js';
-import updateCustomer from '../controllers/client/UpdateById.js';
-import deleteCustomer from '../controllers/client/DeleteById.js';
+const getAllCustomers = require('../controllers/cliente/GetAll.js');
+const getCustomerById = require('../controllers/cliente/GetById.js');
+const createCustomer = require('../controllers/cliente/Create.js');
+const updateCustomer = require('../controllers/cliente/UpdateById.js');
+const deleteCustomer = require('../controllers/cliente/DeleteById.js');
 
-import getAllAgronomist from '../controllers/agronomo/GetAll.js';
-import createAgronomist from '../controllers/agronomo/Create.js';
+const getAllAgronomist = require('../controllers/agronomo/GetAll.js');
+const createAgronomist = require('../controllers/agronomo/Create.js');
 
-import createVisit from '../controllers/visita/Create.js';
-import getByIdVisit from '../controllers/visita/GetById.js';
-import updateByIdVisit from '../controllers/visita/UpdateById.js';
-import getAllProgressVisit from '../controllers/visita/GetAllProgress.js';
-import getAllFinishedVisit from '../controllers/visita/GetAllFinished.js';
-import getAllCanceledVisit from '../controllers/visita/GetAllCanceled.js';
+const createVisit = require('../controllers/visita/Create.js');
+const getByIdVisit = require('../controllers/visita/GetById.js');
+const updateByIdVisit = require('../controllers/visita/UpdateById.js');
+const getAllProgressVisit = require('../controllers/visita/GetAllProgress.js');
+const getAllFinishedVisit = require('../controllers/visita/GetAllFinished.js');
+const getAllCanceledVisit = require('../controllers/visita/GetAllCanceled.js');
 
 const router = express.Router();
 
@@ -30,10 +30,7 @@ router.get('/', (_, res) => {
   return res.status(StatusCodes.ACCEPTED).send('Hello world! Página inicial');
 });
 
-router.get(
-  '/usuarios/buscar/:nomeUsuario/perfil/:perfilId',
-  searchUsers.searchUsuario,
-);
+router.get('/usuario/:nomeProcurado/perfil/:perfilUsuario', searchUser.search);
 
 router.post(
   '/admin/cadastrar/tipo/:tipo',
@@ -69,4 +66,4 @@ router.get('/visita/finalizada', getAllFinishedVisit.getAllFinished);
 router.get('/visita/cancelada', getAllCanceledVisit.getAllCanceled);
 router.get('/visita/:id', getByIdVisit.getById);
 
-export default router;
+module.exports = router;
