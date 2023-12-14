@@ -20,6 +20,5 @@
     "linebreak-style": ["error", "windows"],
     "quotes": ["error", "single"],
     "semi": ["error", "always"]
-  },
-  // "eslint-disable-next-line no-unused-vars": false
+  }
 }
