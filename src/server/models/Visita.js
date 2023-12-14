@@ -1,9 +1,9 @@
-import { DataTypes } from 'sequelize';
-import sequelize from '../database/index.js';
+const { DataTypes } = require('sequelize');
+const { sequelize } = require('../config/database.js');
 
-import Cliente from './Cliente.js';
-import Agronomo from './Agronomo.js';
-import Status from './Status.js';
+const Cliente = require('./Cliente.js');
+const Agronomo = require('./Agronomo.js');
+const Status = require('./Status.js');
 
 const Visita = sequelize.define(
   'visita',
@@ -14,25 +14,13 @@ const Visita = sequelize.define(
       allowNull: false,
       primaryKey: true,
     },
-    chegada: {
-      type: DataTypes.TIME,
-      allowNull: false,
-    },
-    saida: {
-      type: DataTypes.TIME,
-      allowNull: false,
-    },
-    data: {
-      type: DataTypes.DATEONLY,
-      allowNull: false,
-    },
     objetivo: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
       allowNull: false,
     },
     diagnostico: {
-      type: DataTypes.STRING,
-      allowNull: false,
+      type: DataTypes.TEXT,
+      allowNull: true,
     },
     praga: {
       type: DataTypes.STRING,
@@ -40,7 +28,7 @@ const Visita = sequelize.define(
     },
     produto: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     observacoes: {
       type: DataTypes.TEXT,
@@ -50,8 +38,8 @@ const Visita = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: true,
     },
-    venda: {
-      type: DataTypes.BOOLEAN,
+    foto: {
+      type: DataTypes.ARRAY(DataTypes.TEXT),
       allowNull: true,
     },
     cliente_id: {
@@ -78,9 +66,21 @@ const Visita = sequelize.define(
         key: 'id',
       },
     },
-    foto: {
-      type: DataTypes.ARRAY(DataTypes.TEXT),
+    venda: {
+      type: DataTypes.BOOLEAN,
       allowNull: true,
+    },
+    data: {
+      type: DataTypes.DATEONLY,
+      allowNull: false,
+    },
+    chegada: {
+      type: DataTypes.TIME,
+      allowNull: false,
+    },
+    saida: {
+      type: DataTypes.TIME,
+      allowNull: false,
     },
   },
   {
@@ -107,4 +107,4 @@ Agronomo.hasMany(Visita, { foreignKey: 'agronomo_id', as: 'visitas' });
 Visita.belongsTo(Status, { foreignKey: 'status_id' });
 Status.hasMany(Visita, { foreignKey: 'status_id', as: 'visitas' });
 
-export default Visita;
+module.exports = Visita;

@@ -1,11 +1,11 @@
 var DataTypes = require('sequelize').DataTypes;
-var _admin = require('./admin');
-var _agronomo = require('./agronomo');
-var _cliente = require('./cliente');
-var _perfil = require('./perfil');
-var _status = require('./status');
-var _usuario = require('./usuario');
-var _visita = require('./visita');
+var _admin = require('./Admin');
+var _agronomo = require('./Agronomo');
+var _cliente = require('./Cliente');
+var _perfil = require('./Perfil');
+var _status = require('./Status');
+var _usuario = require('./Usuario');
+var _visita = require('./Visita');
 
 function initModels(sequelize) {
   var admin = _admin(sequelize, DataTypes);

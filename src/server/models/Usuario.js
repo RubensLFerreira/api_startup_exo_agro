@@ -1,5 +1,5 @@
-import { DataTypes } from 'sequelize';
-import sequelize from '../database/index.js';
+const { DataTypes } = require('sequelize');
+const { sequelize } = require('../config/database.js');
 
 const Usuario = sequelize.define(
   'usuario',
@@ -10,17 +10,13 @@ const Usuario = sequelize.define(
       allowNull: false,
       primaryKey: true,
     },
-    foto: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
     nome: {
       type: DataTypes.STRING,
       allowNull: false,
     },
     telefone: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
     },
     sexo: {
       type: DataTypes.CHAR(1),
@@ -35,10 +31,6 @@ const Usuario = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
       unique: 'usuario_email_key',
-    },
-    senha: {
-      type: DataTypes.STRING,
-      allowNull: false,
     },
     nascimento: {
       type: DataTypes.DATEONLY,
@@ -64,6 +56,10 @@ const Usuario = sequelize.define(
         key: 'id',
       },
     },
+    foto: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   },
   {
     sequelize,
@@ -71,6 +67,16 @@ const Usuario = sequelize.define(
     schema: 'public',
     timestamps: false,
     indexes: [
+      {
+        name: 'usuario_cpf_key',
+        unique: true,
+        fields: [{ name: 'cpf' }],
+      },
+      {
+        name: 'usuario_email_key',
+        unique: true,
+        fields: [{ name: 'email' }],
+      },
       {
         name: 'usuario_pkey',
         unique: true,
@@ -80,4 +86,4 @@ const Usuario = sequelize.define(
   },
 );
 
-export default Usuario;
+module.exports = Usuario;

@@ -1,7 +1,6 @@
-import { DataTypes } from 'sequelize';
-import sequelize from '../database/index.js';
-
-import Usuario from './Usuario.js';
+const { DataTypes } = require('sequelize');
+const { sequelize } = require('../config/database.js');
+const Usuario = require('./Usuario.js');
 
 const Agronomo = sequelize.define(
   'agronomo',
@@ -14,7 +13,7 @@ const Agronomo = sequelize.define(
     },
     formacao: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
     },
     especializacao: {
       type: DataTypes.STRING,
@@ -27,6 +26,10 @@ const Agronomo = sequelize.define(
         model: 'usuario',
         key: 'id',
       },
+    },
+    senha: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
   },
   {
@@ -46,4 +49,4 @@ const Agronomo = sequelize.define(
 
 Agronomo.belongsTo(Usuario, { foreignKey: 'usuario_id', as: 'usuario' });
 
-export default Agronomo;
+module.exports = Agronomo;

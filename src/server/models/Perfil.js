@@ -1,5 +1,5 @@
-import { DataTypes } from 'sequelize';
-import sequelize from '../database';
+const { DataTypes } = require('sequelize');
+const { sequelize } = require('../config/database.js');
 
 const Perfil = sequelize.define(
   'perfil',
@@ -30,4 +30,8 @@ const Perfil = sequelize.define(
   },
 );
 
-export default Perfil;
+module.exports = Perfil;
+
+// admin
+// agronomo
+// cliente

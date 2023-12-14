@@ -1,7 +1,6 @@
-import { DataTypes } from 'sequelize';
-import sequelize from '../database/index.js';
-
-import Usuario from './Usuario.js';
+const { DataTypes } = require('sequelize');
+const { sequelize } = require('../config/database.js');
+const Usuario = require('./Usuario.js');
 
 const Admin = sequelize.define(
   'admin',
@@ -19,6 +18,10 @@ const Admin = sequelize.define(
         model: 'usuario',
         key: 'id',
       },
+    },
+    senha: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
   },
   {
@@ -38,4 +41,4 @@ const Admin = sequelize.define(
 
 Admin.belongsTo(Usuario, { foreignKey: 'usuario_id', as: 'usuario' });
 
-export default Admin;
+module.exports = Admin;

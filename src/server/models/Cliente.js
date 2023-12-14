@@ -1,7 +1,6 @@
-import { DataTypes } from 'sequelize';
-import sequelize from '../database/index.js';
-
-import Usuario from './Usuario.js';
+const { DataTypes } = require('sequelize');
+const { sequelize } = require('../config/database.js');
+const Usuario = require('./Usuario.js');
 
 const Cliente = sequelize.define(
   'cliente',
@@ -54,4 +53,4 @@ const Cliente = sequelize.define(
 
 Cliente.belongsTo(Usuario, { foreignKey: 'usuario_id', as: 'usuario' });
 
-export default Cliente;
+module.exports = Cliente;

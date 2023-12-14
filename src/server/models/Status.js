@@ -1,5 +1,5 @@
-import { DataTypes } from 'sequelize';
-import sequelize from '../database/index.js';
+const { DataTypes } = require('sequelize');
+const { sequelize } = require('../config/database.js');
 
 const Status = sequelize.define(
   'status',
@@ -29,4 +29,9 @@ const Status = sequelize.define(
     ],
   },
 );
-export default Status;
+
+module.exports = Status;
+
+// andamento
+// finalziado
+// cancelado
