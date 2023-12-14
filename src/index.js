@@ -1,10 +1,7 @@
-import { server } from './server/Server.js';
-import chalk from 'chalk';
+const server = require('./server/Server');
 
 server.listen(process.env.PORT || 8080, () => {
   console.log(
-    chalk.blue(
-      `\nServer running at port http://127.0.0.1:${process.env.PORT}\n`,
-    ),
+    `\nServer running at port http://10.0.0.105:${process.env.PORT}\n`,
   );
 });
