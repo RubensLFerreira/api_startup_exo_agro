@@ -1,4 +1,4 @@
-import * as yup from 'yup';
+const yup = require('yup');
 
 const agronomoSchema = yup.object().shape({
   nome: yup.string().min(3).required('Campo nome é obrigatório'),
@@ -21,4 +21,4 @@ const agronomoSchema = yup.object().shape({
   especializacao: yup.string(),
 });
 
-export default agronomoSchema;
+module.exports = agronomoSchema;

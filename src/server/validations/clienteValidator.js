@@ -1,4 +1,4 @@
-import * as yup from 'yup';
+const yup = require('yup');
 
 const clienteSchema = yup.object().shape({
   nome: yup.string().min(3).required('Campo nome é obrigatório'),
@@ -9,11 +9,11 @@ const clienteSchema = yup.object().shape({
     .nullable()
     .email('Formato de e-mail digitado não válido')
     .trim('Não deve conter espaços no início ou no fim.'),
-  senha: yup
-    .string()
-    .min(3, 'Senha precisa ter no minímo 3 caracteres')
-    .max(20, 'Senha precisa ter no máximo 20 caracteres')
-    .required('Campo senha obrigatório'),
+  // senha: yup
+  //   .string()
+  //   .min(3, 'Senha precisa ter no minímo 3 caracteres')
+  //   .max(20, 'Senha precisa ter no máximo 20 caracteres')
+  //   .required('Campo senha obrigatório'),
   rua: yup.string().min(3).required('Campo rua é obrigatório'),
   bairro: yup.string().min(3).required('Campo bairro é obrigatório'),
   cidade: yup.string().min(3).required('Campo cidade é obrigatório'),
@@ -23,4 +23,4 @@ const clienteSchema = yup.object().shape({
   notificacao: yup.string().min(3).required('Campo notificação é obrigatório'),
 });
 
-export default clienteSchema;
+module.exports = clienteSchema;

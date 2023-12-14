@@ -1,4 +1,4 @@
-import * as yup from 'yup';
+const yup = require('yup');
 
 const adminSchema = yup.object().shape({
   nome: yup.string().min(3).required('Campo nome é obrigatório'),
@@ -19,4 +19,4 @@ const adminSchema = yup.object().shape({
   cidade: yup.string().min(3).required('Campo cidade é obrigatório'),
 });
 
-export default adminSchema;
+module.exports = adminSchema;
