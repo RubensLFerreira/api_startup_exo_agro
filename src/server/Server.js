@@ -1,9 +1,13 @@
-import 'dotenv/config';
+require('dotenv').config();
 
-import express from 'express';
-import router from './routes/index.js';
+const express = require('express');
 
-import cors from 'cors';
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('../../swagger-output.json');
+
+const router = require('./routes/index.js');
+
+const cors = require('cors');
 
 const server = express();
 
@@ -14,6 +18,7 @@ server.use(express.urlencoded({ extended: true }));
 
 server.use(express.static('public'));
 
+server.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 server.use('/', router);
 
-export { server };
+module.exports = server;
