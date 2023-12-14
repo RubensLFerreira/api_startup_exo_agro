@@ -1,47 +1,28 @@
-import { Op } from 'sequelize';
-import { StatusCodes } from 'http-status-codes';
+const { StatusCodes } = require('http-status-codes');
 
-import Usuario from '../../models/Usuario.js';
+const usuarioService = require('../../services/usuario/Search.js');
 
 const usuarioController = {
-  searchUsuario: async (req, res) => {
-    const { nomeUsuario, perfilId } = req.params;
-
-    if (!nomeUsuario && !perfilId) {
-      return res.status(StatusCodes.BAD_REQUEST).json({
-        message: 'Please provide search parameters!',
-      });
-    }
-
-    const clausulaWhere = {};
-
-    if (nomeUsuario) {
-      clausulaWhere.nome = { [Op.like]: `%${nomeUsuario}%` };
-    }
-
-    if (perfilId) {
-      clausulaWhere.perfil_id = perfilId;
-    }
+  search: async (req, res) => {
+    const { nomeProcurado, perfilUsuario } = req.params;
 
     try {
-      const usuariosEncontrados = await Usuario.findAll({
-        where: clausulaWhere,
-      });
-
-      if (!usuariosEncontrados || usuariosEncontrados.length === 0) {
-        return res.status(StatusCodes.NOT_FOUND).json({
-          message: 'No users found!',
+      if (!nomeProcurado && !perfilUsuario) {
+        return res.status(StatusCodes.BAD_REQUEST).json({
+          message: 'Invalid parameters',
         });
       }
 
-      res.status(StatusCodes.OK).json({ usuariosEncontrados });
+      const usuarios = await usuarioService(nomeProcurado, perfilUsuario);
+
+      res.status(StatusCodes.OK).json({ usuarios });
     } catch (error) {
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-        message: 'Error when searching for clients!',
-        error: error.message,
+        message: 'Error when searching for registers!',
+        service: error.message,
       });
     }
   },
 };
 
-export default usuarioController;
+module.exports = usuarioController;

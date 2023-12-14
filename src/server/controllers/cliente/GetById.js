@@ -1,15 +1,15 @@
 const { StatusCodes } = require('http-status-codes');
 
-const visitaService = require('../../services/visita/GetById.js');
+const clienteService = require('../../services/cliente/GetById.js');
 
-const visitaController = {
+const clienteController = {
   getById: async (req, res) => {
     try {
       const { id } = req.params;
 
-      const visita = await visitaService(id);
+      const cliente = await clienteService(id);
 
-      res.status(StatusCodes.OK).json({ visita });
+      res.status(StatusCodes.OK).json({ cliente });
     } catch (error) {
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
         message: 'Error when searching for a record',
@@ -19,4 +19,4 @@ const visitaController = {
   },
 };
 
-module.exports = visitaController;
+module.exports = clienteController;

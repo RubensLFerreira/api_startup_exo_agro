@@ -1,20 +1,21 @@
 const { StatusCodes } = require('http-status-codes');
 
-const agronomoService = require('../../services/agronomo/GetAll.js');
+const clienteService = require('../../services/cliente/GetAll.js');
 
-const agronomoController = {
+const clienteController = {
   getAll: async (_, res) => {
     try {
-      const agronomos = await agronomoService();
+      const clientes = await clienteService();
 
-      res.status(StatusCodes.OK).json(agronomos);
+      return res.status(StatusCodes.OK).json({ clientes });
     } catch (error) {
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
         message: 'Error when searching all records',
+        validator: error.errors,
         service: error.message,
       });
     }
   },
 };
 
-module.exports = agronomoController;
+module.exports = clienteController;

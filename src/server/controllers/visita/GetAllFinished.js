@@ -1,21 +1,25 @@
-import Visita from './../../models/Visita.js';
-import { StatusCodes } from 'http-status-codes';
+const { StatusCodes } = require('http-status-codes');
+
+const visitaService = require('../../services/visita/GetAllFinished.js');
 
 const visitaController = {
   getAllFinished: async (_, res) => {
     try {
-      const visitas = await Visita.findAll({ where: { status_id: 2 } });
+      const id = 2;
+      const visitas = await visitaService(id);
 
       res.status(StatusCodes.OK).json({ visitas });
     } catch (error) {
-      return res
-        .status(StatusCodes.INTERNAL_SERVER_ERROR)
-        .json({
-          message: 'Error when searching for scheduled visits!',
-          error: error,
-        });
+      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+        message: 'Error when searching all records',
+        service: error.message,
+      });
     }
   },
 };
 
-export default visitaController;
+module.exports = visitaController;
+
+// (1, 'andamento'),
+// (2, 'finalizado'),
+// (3, 'cancelado');

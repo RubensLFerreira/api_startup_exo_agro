@@ -1,63 +1,29 @@
-import { StatusCodes } from 'http-status-codes';
-import bcrypt from 'bcrypt';
+const { StatusCodes } = require('http-status-codes');
 
-import Usuario from '../../models/Usuario.js';
-import Admin from './../../models/Admin.js';
+const createUserToken = require('../../utils/createUserToken.js');
+const adminSchema = require('./../../validations/adminValidator.js');
 
-import createUserToken from '../../utils/createUserToken.js';
-import adminSchema from './../../validations/adminValidator.js';
-
-const profileAdmin = 1;
+const createAdminService = require('../../services/admin/Create.js');
 
 const adminController = {
   create: async (req, res) => {
     try {
+      const adminData = req.body;
       const foto = req.file;
-      const {
-        nome,
-        telefone,
-        sexo,
-        cpf,
-        email,
-        senha,
-        nascimento,
-        rua,
-        bairro,
-        cidade,
-      } = req.body;
 
-      await adminSchema.validate(req.body);
+      await adminSchema.validate(adminData);
 
-      const salt = await bcrypt.genSalt(10);
-      const senhaHash = await bcrypt.hash(senha, salt);
-
-      const usuario = await Usuario.create({
-        foto: foto.filename,
-        nome,
-        telefone,
-        sexo,
-        cpf,
-        email,
-        senha: senhaHash,
-        nascimento,
-        rua,
-        bairro,
-        cidade,
-        perfil_id: profileAdmin,
-      });
-
-      await Admin.create({
-        usuario_id: usuario.id,
-      });
+      const usuario = await createAdminService(adminData, foto);
 
       createUserToken(usuario, req, res);
     } catch (error) {
       return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-        message: 'Error creating administrator!',
+        message: 'Error when creating a new record',
         validator: error.errors,
+        service: error.message,
       });
     }
   },
 };
 
-export default adminController;
+module.exports = adminController;

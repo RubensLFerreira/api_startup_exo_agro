@@ -1,68 +1,27 @@
-import { StatusCodes } from 'http-status-codes';
+const { StatusCodes } = require('http-status-codes');
 
-import Visita from '../../models/Visita.js';
+// const visitaSchema = require('../../validations/visitaValidator.js');
 
-import visitaSchema from '../../validations/visitaValidator.js';
+const visitaService = require('../../services/visita/UpdateById.js');
 
 const visitaController = {
   update: async (req, res) => {
     const { id } = req.params;
-    const {
-      objetivo,
-      diagnostico,
-      praga,
-      produto,
-      observacoes,
-      plantio,
-      foto,
-      cliente,
-      agronomo,
-      status,
-      venda,
-      data,
-      chegada,
-      saida,
-    } = req.body;
+    const visitaData = req.body;
 
-      
     try {
-      await visitaSchema.validate(req.body);
+      // await visitaSchema.validate(req.body);
 
-      const visita = await Visita.findByPk(id);
+      const visita = await visitaService(visitaData, id);
 
-      if (!visita) {
-        return res.status(404).send({ message: 'Objeto não encontrado' });
-      }
-
-      const updateVisita = await visita.update({
-        objetivo,
-        diagnostico,
-        praga,
-        produto,
-        observacoes,
-        plantio,
-        foto,
-        cliente_id: cliente,
-        agronomo_id: agronomo,
-        status_id: status,
-        venda,
-        data,
-        chegada,
-        saida,
-      }, {
-        where: { id: id },
-      });
-    
-
-      res.status(StatusCodes.OK).json({ updateVisita });
+      res.status(StatusCodes.OK).json({ visita });
     } catch (error) {
-      return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
-        message: 'Error when updating visit!',
-        validator: error.errors,
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        message: 'Error updating a record',
+        service: error.message,
       });
     }
   },
 };
 
-export default visitaController;
-
+module.exports = visitaController;
