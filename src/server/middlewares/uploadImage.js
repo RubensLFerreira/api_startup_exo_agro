@@ -1,13 +1,19 @@
-import multer from 'multer';
-import path from 'path';
+const multer = require('multer');
+const path = require('path');
 
 const imageStorage = multer.diskStorage({
   destination: (req, file, callback) => {
     const { tipo } = req.params;
     let folder =
-      tipo === 'visita' ? 'visita' : tipo === 'admin' ? 'admin' : 'agronomo';
+      tipo === 'visita'
+        ? 'visita'
+        : tipo === 'admin'
+        ? 'admin'
+        : tipo === 'cliente'
+        ? 'cliente'
+        : 'agronomo';
 
-    const uploadPath = `src/server/public/images/${folder}`;
+    const uploadPath = `src/server/uploads/images/${folder}`;
     callback(null, uploadPath);
   },
 
@@ -32,4 +38,4 @@ const imageUpload = multer({
   },
 });
 
-export default imageUpload;
+module.exports = imageUpload;

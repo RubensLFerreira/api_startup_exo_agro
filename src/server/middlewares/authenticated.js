@@ -1,9 +1,9 @@
-import 'dotenv/config';
+require('dotenv').config();
 
-import { StatusCodes } from 'http-status-codes';
+const { StatusCodes } = require('http-status-codes');
 
-import jwt from 'jsonwebtoken';
-import getToken from '../utils/getToken.js';
+const jwt = require('jsonwebtoken');
+const getToken = require('../utils/getToken.js');
 
 const checkToken = (req, res, next) => {
   if (!req.headers.authorization) {
@@ -34,4 +34,4 @@ const checkToken = (req, res, next) => {
   }
 };
 
-export default checkToken;
+module.exports = checkToken;
