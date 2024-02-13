@@ -1,9 +1,0 @@
-{
-  "recommendations": [
-    "dbaeumer.vscode-eslint",
-    "esbenp.prettier-vscode",
-    "kvcvc.sequelize-snippets",
-    "orta.vscode-jest",
-    "mikestead.dotenv"
-  ]
-}
