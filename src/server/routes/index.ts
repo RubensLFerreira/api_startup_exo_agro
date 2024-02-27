@@ -1,4 +1,4 @@
-import { Router, Request, Response } from 'express';
+import { Router } from 'express';
 
 import authenticated from '../middlewares/authenticated';
 
@@ -16,8 +16,5 @@ router.use('/agronomist', agronomistRoutes);
 router.use('/client', clientRoutes);
 router.use('/visit', visitRoutes);
 router.use('/user', userRoutes);
-router.use('/', (_: Request, res: Response) => {
-  res.status(200).json({ message: 'Hello World!' });
-});
 
 export default router;

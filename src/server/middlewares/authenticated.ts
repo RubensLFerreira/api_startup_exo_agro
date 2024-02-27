@@ -10,8 +10,10 @@ interface IRequest extends Request {
   token?: string;
 }
 
-const createUserToken = async (req: IRequest, res: Response, next: NextFunction) => {
+const authenticated = async (req: IRequest, res: Response, next: NextFunction) => {
   const { email, password } = req.body;
+
+  console.log(email, password);
 
   const secret = process.env.SECRET;
 
@@ -52,7 +54,8 @@ const createUserToken = async (req: IRequest, res: Response, next: NextFunction)
     message: 'Authenticated user!',
     token: token,
     user_id: userExists.id,
+    role: userExists.role
   });
 };
 
-export default createUserToken;
+export default authenticated;
