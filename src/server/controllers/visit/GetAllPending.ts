@@ -2,23 +2,29 @@ import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
 import Visit from '../../Models/Visit';
+import Client from '../../Models/Client';
+import User from '../../Models/User';
 
 export const getAllPendingVisits = async (req: Request, res: Response) => {
-  const allPendingVisits = await Visit.findAll({
-    where: {
-      status: 'pending'
-    }
-  });
-
-  if(allPendingVisits.length === 0) return res.status(StatusCodes.NOT_FOUND).json({
-    message: 'No pending visits found'
-  });
-
   try {
-    res.status(StatusCodes.OK).json(allPendingVisits);
-  } catch (error) {
+    const allVisits = await Visit.findOne({
+      where: {
+        status: 'pending'
+      },
+      include: [
+        {
+          model: Client,
+          include: [
+            { model: User }
+          ]
+        }
+      ]
+    });
+
+    res.status(StatusCodes.OK).json(allVisits);
+  } catch (error: any) {
     return res.status(StatusCodes.BAD_REQUEST).json({
-      message: 'Error when getting all pending visits',
+      message: 'Error when getting all records',
       error: error
     });
   }

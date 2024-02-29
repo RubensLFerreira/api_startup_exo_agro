@@ -2,23 +2,29 @@ import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
 import Visit from '../../Models/Visit';
+import Client from '../../Models/Client';
+import User from '../../Models/User';
 
-export const getAllDoneVisits = async (req: Request, res: Response) => {
-  const allDoneVisits = await Visit.findAll({
-    where: {
-      status: 'done'
-    }
-  });
-
-  if(allDoneVisits.length === 0) return res.status(StatusCodes.NOT_FOUND).json({
-    message: 'No done visits found'
-  });
-
+export const getAllDoneVisits = async (_: Request, res: Response) => {
   try {
-    res.status(StatusCodes.OK).json(allDoneVisits);
-  } catch (error) {
+    const allVisits = await Visit.findAll({
+      where: {
+        status: 'done'
+      },
+      include: [
+        {
+          model: Client,
+          include: [
+            { model: User }
+          ]
+        }
+      ]
+    });
+
+    res.status(StatusCodes.OK).json(allVisits);
+  } catch (error: any) {
     return res.status(StatusCodes.BAD_REQUEST).json({
-      message: 'Error when getting all done visits',
+      message: 'Error when getting all records',
       error: error
     });
   }

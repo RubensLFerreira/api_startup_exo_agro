@@ -2,10 +2,22 @@ import { Request, Response } from 'express';
 import { StatusCodes } from 'http-status-codes';
 
 import Visit from '../../Models/Visit';
+import Client from '../../Models/Client';
+import User from '../../Models/User';
 
-export const getAllVisits = async (req: Request, res: Response) => {
+
+export const getAllVisits = async (_: Request, res: Response) => {
   try {
-    const allVisits = await Visit.findAll();
+    const allVisits = await Visit.findAll({
+      include: [
+        {
+          model: Client,
+          include: [
+            { model: User }
+          ]
+        }
+      ]
+    });
 
     res.status(StatusCodes.OK).json(allVisits);
   } catch (error: any) {

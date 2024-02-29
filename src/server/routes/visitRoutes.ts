@@ -14,6 +14,10 @@ import {
 
 const router = Router();
 
+router.route('/pending').get(getAllVisits);
+router.route('/done').get(getAllDoneVisits);
+router.route('/canceled').get(getAllCanceledVisits);
+
 router.route('/').get(getAllVisits);
 
 router.route('/:type?')
@@ -25,8 +29,6 @@ router.route('/:id')
   .get(getVisitById)
   .delete(deleteVisitById); 
 
-router.route('/pending').get(getAllVisits);
-router.route('/done').get(getAllDoneVisits);
-router.route('/canceled').get(getAllCanceledVisits);
+
 
 export default router;
